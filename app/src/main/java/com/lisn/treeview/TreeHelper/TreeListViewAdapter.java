@@ -35,6 +35,24 @@ public abstract class TreeListViewAdapter<T> extends BaseAdapter
 	 */
 	private OnTreeNodeClickListener onTreeNodeClickListener;
 
+	/**
+	 * 动态添加子节点
+	 * @param position
+	 * @param s
+	 */
+	public void addExtraNode(int position, String s) {
+		Node node = mNodes.get(position);
+		int indexOf = mAllNodes.indexOf(node);
+		//TODO Node-Id
+		Node ExtraNode = new Node(-1, node.getId(), s);
+		ExtraNode.setParent(node);
+		node.getChildren().add(ExtraNode);
+		mAllNodes.add(indexOf + 1, ExtraNode);
+		mNodes = TreeHelper.filterVisibleNode(mAllNodes);
+		notifyDataSetChanged();
+
+	}
+
 	public interface OnTreeNodeClickListener
 	{
 		void onClick(Node node, int position);
